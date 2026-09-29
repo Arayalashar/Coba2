@@ -7,57 +7,41 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 0.7,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-      ),
-      padding: const EdgeInsets.all(10),
-      itemCount: bookList.length,
-      itemBuilder: (context, index) {
-        return InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DetailPage(book: bookList[index]),
-              ),
-            );
-          },
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: Image.network(
-                  bookList[index].imageUrl,
-                  fit: BoxFit.cover,
+    return ListView.builder(
+        itemCount: bookList.length,
+        itemBuilder: (context, index) {
+          return InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailPage(book: bookList[index]),
                 ),
-              ),
-              const SizedBox(height: 8),
-              Text(
+              );
+            },
+            child: ListTile(
+              title: Text(
                 bookList[index].title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 4),
-              Text(
-                bookList[index].author,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+              subtitle: Text(bookList[index].author),
+              leading: Image.network(bookList[index].imageUrl, width: 50, height: 50, fit: BoxFit.cover),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.favorite_border, color: Colors.red),
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('${bookList[index].title} ditambahkan ke Wishlist')),
+                      );
+                    },
+                  ),
+                  const Icon(Icons.arrow_forward_ios),
+                ],
               ),
-            ],
-          ),
-        );
-      },
-    );
+            ),
+          );
+        });
   }
 }

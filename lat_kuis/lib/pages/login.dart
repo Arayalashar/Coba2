@@ -67,8 +67,15 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text("Login Page"),
+              const Text("Login Page", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
               const SizedBox(height: 20),
+              Image.network(
+                'https://upload.wikimedia.org/wikipedia/id/5/5c/LogoMieGacoan.png',
+                width: 100,
+                height: 100,
+                fit: BoxFit.contain,
+              ),
+              const SizedBox(height: 30),
               _emailField(_emailController),
               const SizedBox(height: 10),
               _passwordField(_passwordController),

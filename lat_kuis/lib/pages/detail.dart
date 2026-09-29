@@ -11,6 +11,16 @@ class DetailPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(book.title),
         backgroundColor: Colors.blue,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.favorite_border, color: Colors.white),
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('${book.title} ditambahkan ke Wishlist')),
+              );
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
