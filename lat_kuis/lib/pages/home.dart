@@ -2,14 +2,22 @@ import 'package:flutter/material.dart';
 import '../models/bookModels.dart';
 import 'detail.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  Set<int> favoriteIndexes = {};
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
         itemCount: bookList.length,
         itemBuilder: (context, index) {
+          bool isFav = favoriteIndexes.contains(index);
           return InkWell(
             onTap: () {
               Navigator.push(
@@ -30,10 +38,24 @@ class Home extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.favorite_border, color: Colors.red),
+                    icon: Icon(
+                      isFav ? Icons.favorite : Icons.favorite, 
+                      color: isFav ? Colors.red : Colors.grey,
+                    ),
                     onPressed: () {
+                      setState(() {
+                        if (isFav) {
+                          favoriteIndexes.remove(index);
+                        } else {
+                          favoriteIndexes.add(index);
+                        }
+                      });
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('${bookList[index].title} ditambahkan ke Wishlist')),
+                        SnackBar(
+                          content: Text(isFav 
+                              ? '${bookList[index].title} dihapus dari Wishlist' 
+                              : '${bookList[index].title} ditambahkan ke Wishlist'),
+                        ),
                       );
                     },
                   ),
